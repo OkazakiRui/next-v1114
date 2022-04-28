@@ -23,7 +23,7 @@ const IndexPage: NextPage<Props> = ({ gameData }) => {
 export const getStaticProps = async () => {
   const fetchGameData = await fetch('https://api.sampleapis.com/switch/games');
   const gameData = await fetchGameData.json();
-  console.log(gameData);
+  // console.log(gameData);
 
   return {
     props: {

@@ -18,7 +18,7 @@ export const getStaticPaths = async () => {
   const paths = gameData.map((data) => ({
     params: { id: String(data.id) },
   }));
-  console.log({ paths });
+  // console.log({ paths });
 
   return {
     paths,
@@ -30,9 +30,10 @@ export const getStaticProps = async ({ params }) => {
   const fetchGameData = await fetch(
     `https://api.sampleapis.com/switch/games/${params.id}`
   );
+  // gameDataに型をつけた
   const gameData = (await fetchGameData.json()) as GameData;
 
-  // gameDataに肩をつける
+  // 短時間にrequestが950件を超えたらサーバー側でストップがかかる
   return {
     props: { gameData },
   };
