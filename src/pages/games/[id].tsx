@@ -8,29 +8,31 @@ const Index: NextPage<Props> = ({ gameData }) => {
   return (
     <div>
       <h1>{gameData.name}</h1>
-      <p>{}</p>
     </div>
   );
 };
 
 export const getStaticPaths = async () => {
+  const fetchGameData = await fetch('https://api.sampleapis.com/switch/games');
+  const gameData = await fetchGameData.json();
+  const paths = gameData.map((data) => ({
+    params: { id: String(data.id) },
+  }));
+  console.log({ paths });
+
   return {
-    paths: [
-      {
-        params: { id: '1' },
-      },
-      {
-        params: { id: '2' },
-      },
-      {
-        params: { id: '3' },
-      },
-    ],
+    paths,
     fallback: false,
   };
 };
 
 export const getStaticProps = async ({ params }) => {
+  const fetchGameData = await fetch(
+    `https://api.sampleapis.com/switch/games/${params.id}`
+  );
+  const gameData = (await fetchGameData.json()) as GameData;
+
+  // gameDataに肩をつける
   return {
     props: { gameData },
   };
